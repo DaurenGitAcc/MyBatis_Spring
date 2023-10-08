@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace="ru.gpm.example.mybatis.min.repository.WarehouseRepository">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        <if test="id == null">
+            INSERT INTO warehouse (name) values (#{name});
+        </if>
+        <if test="id != null">
+            UPDATE warehouse SET name=#{name} where id=#{id};
+        </if>
+    </insert>
+
+    <select id="findOne" resultMap="WarehouseMap">
+        SELECT id, name FROM warehouse WHERE id = #{id};
+    </select>
+
+    <resultMap id="WarehouseMap" type="Warehouse" autoMapping="true"/>
+</mapper>

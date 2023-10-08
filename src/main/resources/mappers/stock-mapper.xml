@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace="ru.gpm.example.mybatis.min.repository.StockRepository">
+
+    <insert id="save">
+            INSERT INTO stock (product_id, warehouse_id, qty)
+            VALUES (#{product.id}, #{warehouse.id}, #{qty})
+            ON DUPLICATE KEY UPDATE qty = #{qty}
+    </insert>
+
+    <select id="findStockByWarehouse" resultMap="StockMap">
+        SELECT
+            p.id AS p_id,
+            p.name AS p_name,
+            w.id AS w_id,
+            w.name AS w_name,
+            s.qty
+        FROM stock s
+        LEFT JOIN product p ON s.product_id = p.id
+        LEFT JOIN warehouse w ON s.warehouse_id = w.id
+    </select>
+
+    <resultMap id="StockMap" type="Stock">
+        <result property="qty" column="qty"/>
+        <association property="product" javaType="Product">
+            <result property="id" column="p_id"/>
+            <result property="name" column="p_name"/>
+        </association>
+        <association property="warehouse" javaType="Warehouse">
+            <result property="id" column="w_id"/>
+            <result property="name" column="w_name"/>
+        </association>
+    </resultMap>
+</mapper>

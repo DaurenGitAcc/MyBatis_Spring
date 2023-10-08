@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace="ru.gpm.example.mybatis.min.repository.ProductRepository">
+
+    <insert id="save" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO product (name, sku)
+        VALUES (#{name}, #{sku});
+    </insert>
+
+    <select id="findAll" resultMap="ProductMap">
+        SELECT id, name, sku
+        FROM product;
+    </select>
+
+    <resultMap id="ProductMap" type="Product" autoMapping="true"/>
+</mapper>
