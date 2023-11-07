@@ -11,5 +11,7 @@ public interface StockRepository {
 
     List<Stock> findStockByWarehouse(Warehouse warehouse);
 
+    Stock findStockByWarehouseAndProduct(int warehouseId, int productId);
+
     void save(Stock stock);
 }

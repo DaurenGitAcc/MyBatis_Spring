@@ -12,5 +12,5 @@ public class Stock {
 
     private Product product;
     private Warehouse warehouse;
-    private int qty;
+    private int count;
 }

@@ -27,26 +27,35 @@ class MyBatisApplicationTest {
 
     @Test
     void init() {
-        // Товары
+        // Добавим товары в БД
         productRepository.save(new Product().setName("name-1").setSku("sku-1"));
         productRepository.save(new Product().setName("name-2").setSku("sku-2"));
         final List<Product> all = productRepository.findAll();
         Assertions.assertEquals(2, all.size());
-        // Склад
+
+        // Добавим склад.
         final Warehouse warehouse = new Warehouse().setName("склад-1");
         warehouseRepository.save(warehouse);
         Assertions.assertNotNull(warehouseRepository.findOne(warehouse.getId()));
-        // Остатки
-        final Stock stock1 = new Stock().setProduct(all.get(0)).setWarehouse(warehouse).setQty(10);
-        final Stock stock2 = new Stock().setProduct(all.get(1)).setWarehouse(warehouse).setQty(50);
+
+        // Сохраним остатки по товарам на складе
+        final Stock stock1 = new Stock().setProduct(all.get(0)).setWarehouse(warehouse).setCount(10);
+        final Stock stock2 = new Stock().setProduct(all.get(1)).setWarehouse(warehouse).setCount(50);
         stockService.save(stock1);
         stockService.save(stock2);
+
+        // Получим текущие остатки на складе
         List<Stock> allByWarehouse = stockService.getAllByWarehouse(warehouse);
         Assertions.assertEquals(2, allByWarehouse.size());
         log.info("{}", allByWarehouse);
-        stockService.save(stock1.setQty(20));
+
+        // Поменяем остаток товара
+        stockService.save(stock1.setCount(20));
         allByWarehouse = stockService.getAllByWarehouse(warehouse);
         Assertions.assertEquals(2, allByWarehouse.size());
+        final Stock stockEdit =  stockService.getBy(warehouse, stock1.getProduct());
+        Assertions.assertNotNull(stockEdit);
+        Assertions.assertEquals(20, stockEdit.getCount());
         log.info("{}", allByWarehouse);
     }
 }
