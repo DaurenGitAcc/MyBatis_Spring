@@ -30,6 +30,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -43,7 +44,6 @@
             <version>3.0.2</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -62,5 +62,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
